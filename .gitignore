@@ -1,41 +1,26 @@
-# Autosave files
-*~
+.DS_Store
+bin
+obj
+csx
+.vs
+edge
+Publish
 
-# build
-[Oo]bj/
-[Bb]in/
-packages/
-TestResults/
-
-# globs
-Makefile.in
-*.DS_Store
-*.sln.cache
-*.suo
-*.cache
-*.pidb
-*.userprefs
-*.usertasks
-config.log
-config.make
-config.status
-aclocal.m4
-install-sh
-autom4te.cache/
 *.user
-*.tar.gz
-tarballs/
-test-results/
-Thumbs.db
-.vs/
+*.suo
+*.cscfg
+*.Cache
 
-# Mac bundle stuff
-*.dmg
-*.app
+/packages
+/TestResults
 
-# resharper
-*_Resharper.*
-*.Resharper
+/tools/NuGet.exe
+node_modules/
 
-# dotCover
-*.dotCover
+*.ncrunchproject
+*.ncrunchsolution
+nCrunchTemp*
+
+.fake/
+artifacts/
+/src/Azure.Functions.Cli/Properties/launchSettings.json
