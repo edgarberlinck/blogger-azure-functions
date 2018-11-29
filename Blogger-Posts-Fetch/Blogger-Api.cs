@@ -23,8 +23,8 @@ namespace BloggeApi
             return (data == null) ? new BadRequestObjectResult("Se fudeu!") : (ActionResult)new OkObjectResult(data);
         }
 
-        [FunctionName("Posts")]
-        public static IActionResult Posts([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]HttpRequest req, TraceWriter log)
+        [FunctionName("BlogPosts")]
+        public static IActionResult BlogPosts([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]HttpRequest req, TraceWriter log)
         {
             log.Info("Fetching Blog Posts");
 
@@ -38,8 +38,8 @@ namespace BloggeApi
             return new OkObjectResult(data);
         }
 
-        [FunctionName("Post")]
-        public static IActionResult Post([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]HttpRequest req, TraceWriter log)
+        [FunctionName("BlogPost")]
+        public static IActionResult BlogPost([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]HttpRequest req, TraceWriter log)
         {
             log.Info("Fetching a Blog Posts");
 
@@ -78,7 +78,7 @@ namespace BloggeApi
                 blog.title = data.name;
                 blog.numberOfPosts = data.posts.totalItems;
 
-                return data;
+                return blog;
             }
             catch
             {

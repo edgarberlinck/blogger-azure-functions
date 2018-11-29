@@ -36,5 +36,11 @@ Global
 		$5.scope = text/x-vs
 		$0.StandardHeader = $6
 		$0.VersionControlPolicy = $7
+		$7.CommitMessageStyle = $8
+		$8.Header = @** Changes\n\n
+		$8.Indent = @\t
+		$8.FileSeparator = ", "
+		$8.LastFilePostfix = "@:\n  "
+		$8.IncludeDirectoryPaths = True
 	EndGlobalSection
 EndGlobal
