@@ -14,4 +14,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Model\BlogInfo.cs" />
+  </ItemGroup>
 </Project>
