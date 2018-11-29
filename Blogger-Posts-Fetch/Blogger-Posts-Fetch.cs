@@ -6,31 +6,30 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
 using System.Net;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Dynamic;
 
 namespace BloggerPostsFetch
 {
     public static class Blogger_Posts_Fetch
     {
-        private static string getPostsUri() {
+        private static string GetPostsUri() {
             try
             {
                 var blogUri = Environment.GetEnvironmentVariable("BLOGGER_URI", EnvironmentVariableTarget.Process);
                 var key = Environment.GetEnvironmentVariable("BLOGGER_API_KEY", EnvironmentVariableTarget.Process);
 
-                string url = $"https://www.googleapis.com/blogger/v3/blogs/byurl?url={blogUri}&key={key}";
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                var url = $"https://www.googleapis.com/blogger/v3/blogs/byurl?url={blogUri}&key={key}";
+                var request = (HttpWebRequest)WebRequest.Create(url);
                 request.ContentType = "application/json; charset=utf-8";
 
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-                using (Stream responseStream = response.GetResponseStream())
+                var response = request.GetResponse() as HttpWebResponse;
+                using (var responseStream = response.GetResponseStream())
                 {
-                    StreamReader streamReader = new StreamReader(responseStream);
-                    var json = JsonConvert.DeserializeObject(streamReader.ReadToEnd());
-                    JObject obj = JObject.Parse(json.ToString());
+                    var streamReader = new StreamReader(responseStream);
+                    dynamic json = JsonConvert.DeserializeObject<ExpandoObject>(streamReader.ReadToEnd());
 
-                    return obj["posts"]["selfLink"].ToString();
+                    return json.posts.selfLink;
                 }
             }
             catch
@@ -39,7 +38,7 @@ namespace BloggerPostsFetch
             }
         }
 
-        private static object fetchPosts (string uri) {
+        private static object FetchPosts (string uri) {
             try
             {
                 var key = Environment.GetEnvironmentVariable("BLOGGER_API_KEY", EnvironmentVariableTarget.Process);
@@ -67,9 +66,9 @@ namespace BloggerPostsFetch
         {
             log.Info("C# HTTP trigger function processed a request.");
 
-            var uri = getPostsUri();
+            var uri = GetPostsUri();
 
-            return (uri == null)? new BadRequestObjectResult("Se fudeu!") : (ActionResult)new OkObjectResult(fetchPosts(uri));
+            return (uri == null)? new BadRequestObjectResult("Se fudeu!") : (ActionResult)new OkObjectResult(FetchPosts(uri));
 
         }
     }
